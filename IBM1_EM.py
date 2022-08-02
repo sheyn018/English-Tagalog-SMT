@@ -1,68 +1,78 @@
 import numpy as np
-from datetime import datetime
 import math
 import Utils
 
 
-def expectation_maximization(tagalog_word_dict,english_word_dict,tagalog_sentences,english_sentences):
-    total_tagalog_ocurrences = len(tagalog_word_dict)
-    total_eng_occurrences = len(english_word_dict)
+# expectation maximization
+def expect_max(pfil_word_dict, pen_word_dict, plst_fil_sen, plst_en_sen):
+    fil_occur = len(pfil_word_dict)
+    en_occur = len(pen_word_dict)
 
-    # IBM1 Expectaion Maximization algorithm :
-    translate_eng_tagalog_matrix = np.full((len(tagalog_word_dict), len(english_word_dict)), 1 / len(english_word_dict),dtype=float)
-    translate_eng_tagalog_matrix_prev = np.full((len(tagalog_word_dict), len(english_word_dict)), 1,dtype=float)
+    # IBM1 Expectaion Maximization algorithm
+    trans_en_fil_matrix = np.full((len(pfil_word_dict), len(pen_word_dict)), 1 / len(pen_word_dict), dtype=float)
+    trans_en_fil_matrix_prev = np.full((len(pfil_word_dict), len(pen_word_dict)), 1, dtype=float)
 
-    cnt_iter = 0
-    while not Utils.is_converged(translate_eng_tagalog_matrix,translate_eng_tagalog_matrix_prev,cnt_iter) :
-        cnt_iter += 1
-        translate_eng_tagalog_matrix_prev = translate_eng_tagalog_matrix.copy()
-        total_eng_tagalog = np.full((len(tagalog_word_dict), len(english_word_dict)), 0, dtype=float)
-        total_f = np.full((len(english_word_dict)),0, dtype=float)
+    int_count = 0
+    while not Utils.is_converged(trans_en_fil_matrix, trans_en_fil_matrix_prev, int_count):
+        int_count += 1
 
-        for marker_tur, tagalog_sen in enumerate(tagalog_sentences): #for all sentence pairs (e,f) do
-            #compute normalization
-            tagalog_sen_words = tagalog_sen.split(" ")
-            s_total = np.full((len(tagalog_sen_words)),0,dtype=float)
+        # making the current matrix as the old one
+        trans_en_fil_matrix_prev = trans_en_fil_matrix.copy()
 
-            for marker_word in range(len(tagalog_sen_words)): #for all words e in e do
-                tagalog_word = tagalog_sen_words[marker_word]
-                s_total[marker_word] = 0
-                eng_sen_words = english_sentences[marker_tur].split(" ")
+        # initializing the enfil's value as 0
+        total_enfil = np.full((len(pfil_word_dict), len(pen_word_dict)), 0, dtype=float)
 
-                for eng_word in eng_sen_words: #for all words f in f do
-                    if eng_word == '' :
-                        continue 
-                    marker_tagalog_in_dict =tagalog_word_dict[tagalog_word]
-                    marker_eng_in_dict = english_word_dict[eng_word]
-                    s_total[marker_word] += translate_eng_tagalog_matrix[marker_tagalog_in_dict][marker_eng_in_dict]
+        # initializing the final total value
+        total_fin = np.full((len(pen_word_dict)),0, dtype=float)
+
+        for int_index, lst_fil_sen in enumerate(plst_fil_sen):  # for all sentence pairs (e,f) do
+            # computing for the normalization
+            lst_fil_words = lst_fil_sen.split(" ")
+            total_sen = np.full((len(lst_fil_words)), 0, dtype=float)
+
+            # for all words in the filipino list of words
+            for int_index2 in range(len(lst_fil_words)):
+                str_fil_word = lst_fil_words[int_index2]
+                total_sen[int_index2] = 0
+                lst_en_words = plst_en_sen[int_index].split(" ")
+
+                # for all string words in the list of words
+                for str_en_word in lst_en_words:
+                    # continue even if the string is empty
+                    if str_en_word == '':
+                        continue
+
+                    int_index_fildict = pfil_word_dict[str_fil_word]
+                    int_index_endict = pen_word_dict[str_en_word]
+                    total_sen[int_index2] += trans_en_fil_matrix[int_index_fildict][int_index_endict]
                 #end for
             #end for
 
             #collect counts
-            tagalog_sen_words = tagalog_sen.split(" ")
+            lst_fil_words = lst_fil_sen.split(" ")
 
-            for marker_word in range(len(tagalog_sen_words)): #for all words e in e do
-                tagalog_word = tagalog_sen_words[marker_word]
-                eng_sen_words = english_sentences[marker_tur].split(" ")
+            for int_index2 in range(len(lst_fil_words)): #for all words e in e do
+                str_fil_word = lst_fil_words[int_index2]
+                lst_en_words = plst_en_sen[int_index].split(" ")
 
-                for eng_word in eng_sen_words: #for all words f in f do
-                    if eng_word == '' :
+                for str_en_word in lst_en_words: #for all words f in f do
+                    if str_en_word == '' :
                         continue
-                    marker_tagalog_in_dict =tagalog_word_dict[tagalog_word]
-                    marker_eng_in_dict = english_word_dict[eng_word]
-                    total_eng_tagalog[marker_tagalog_in_dict][marker_eng_in_dict] += translate_eng_tagalog_matrix[marker_tagalog_in_dict][marker_eng_in_dict] / s_total[marker_word]
-                    total_f[marker_eng_in_dict] += translate_eng_tagalog_matrix[marker_tagalog_in_dict][marker_eng_in_dict] / s_total[marker_word]
+                    int_index_fildict = pfil_word_dict[str_fil_word]
+                    int_index_endict = pen_word_dict[str_en_word]
+                    total_enfil[int_index_fildict][int_index_endict] += trans_en_fil_matrix[int_index_fildict][int_index_endict] / total_sen[int_index2]
+                    total_fin[int_index_endict] += trans_en_fil_matrix[int_index_fildict][int_index_endict] / total_sen[int_index2]
                 #end for
             #end for
         #end for
 
         #estimate probabilities
-        for eng_marker in  range(total_eng_occurrences): #for all foreign words f do
+        for int_en_index in range(en_occur):  # for all foreign words f do
 
-            for tagalog_marker in range(total_tagalog_ocurrences): #for all English words e do
+            for int_fil_index in range(fil_occur):  # for all English words e do
 
-                if total_eng_tagalog[tagalog_marker][eng_marker] != 0 :
-                    translate_eng_tagalog_matrix[tagalog_marker][eng_marker] = total_eng_tagalog[tagalog_marker][eng_marker] / total_f[eng_marker]
+                if total_enfil[int_fil_index][int_en_index] != 0 :
+                    trans_en_fil_matrix[int_fil_index][int_en_index] = total_enfil[int_fil_index][int_en_index] / total_fin[int_en_index]
 
             #end for
             
@@ -70,11 +80,11 @@ def expectation_maximization(tagalog_word_dict,english_word_dict,tagalog_sentenc
 
     #end while
 
-    print("EM Algorithm Converged in ",(cnt_iter-1)," iterations")
-    return translate_eng_tagalog_matrix
+    print("EM Algorithm Converged in ",(int_count-1)," iterations")
+    return trans_en_fil_matrix
 
 
-def get_translation_prob(e,f,t,e_dict,f_dict):
+def get_translation_prob(e, f, t, e_dict, f_dict):
     const = Utils.const
     l_e = len(e)
     l_f = len(f)
