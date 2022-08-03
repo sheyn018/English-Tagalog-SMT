@@ -76,8 +76,8 @@ def model_trainer():
     obj_data_en = lst_new_en.copy()                          # obj_data_en is now a list of tokenized sentence
     obj_data_fil = lst_new_fil.copy()                          # i.e. a list of sentences where each sentence is a list of words
 
-    # max_trans = 30000
-    max_trans = 3000
+    max_trans = 14075
+    # max_trans = 3000
 
     # for parsing the filipino sentences and tokenizing the words
     lst_fil_sen, fil_word_dict, reverse_fil_dict = sen_tokenizer(obj_data_fil, max_trans)
@@ -87,7 +87,7 @@ def model_trainer():
 
  
     #run the EM algorithm of IBM Model 1
-    translate_eng_fil = IBM1_EM.expectation_maximization(fil_word_dict,en_word_dict,lst_fil_sen,lst_en_sen)
+    translate_eng_fil = IBM1_EM.expect_max(fil_word_dict,en_word_dict,lst_fil_sen,lst_en_sen)
     
 
     # The following code finds out the maximum probability 
