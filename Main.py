@@ -1,7 +1,7 @@
 import ModelTrainer
 import ModelTester
-import DutchtoEnglish
-import EnglishtoDutch
+import TagalogtoEnglish
+import EnglishtoTagalog
 import nltk
 
 nltk.download('punkt')
@@ -23,7 +23,7 @@ while True:
         try:
             translate_option = int(input('Select translation option: \n\t1: tagalog to English \n\t2: English to tagalog\n'))
         except ValueError:
-            print ("Not a number")
+            print("Not a number")
         if translate_option > 2 or translate_option < 1 :
             print("Invalid Option")
             exit()
@@ -33,10 +33,10 @@ while True:
         print(translated_sentence)
 
     elif mode == 3:             #translate tagalog document to English
-        DutchtoEnglish.translate()
+        TagalogtoEnglish.translate()
 
     elif mode == 4:             #translate English document to tagalog
-        EnglishtoDutch.translate()
+        EnglishtoTagalog.translate()
 
     elif mode == 5:
         break
