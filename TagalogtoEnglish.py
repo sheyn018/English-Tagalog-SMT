@@ -30,22 +30,22 @@ def sentence_tokenizer(sentence_list) :
 def translate() :
     tokenizer = nltk.data.load('tokenizers/punkt/english.pickle')
     f_Output = ""
-    with open("input.txt") as f:
+    with open("input.txt", encoding="utf-8") as f:
         tagalog_data = f.readlines()
 
     tagalog_lines = sentence_tokenizer(tagalog_data)
 
     tagalog_sentences = list()
-    for line in tagalog_lines :
+    for line in tagalog_lines:
         l = tokenizer.tokenize(line)
-        for sen in l :
+        for sen in l:
             tagalog_sentences.append(sen)
 
-    otp_file = open("output.txt", "w+")
-    for index in range(len(tagalog_sentences)) :
+    otp_file = open("output.txt", "w+", encoding="utf-8")
+    for index in range(len(tagalog_sentences)):
         current_sentence = tagalog_sentences[index]
         translated_sentence = ModelTester.sentence_tester1(current_sentence, 1)
         otp_file.write(translated_sentence)
-        otp_file.write(". ")
+        otp_file.write(". \n")
         
     print("Successfully translated! Translated document is 'output.txt' ")

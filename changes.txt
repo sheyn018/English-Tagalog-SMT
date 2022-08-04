@@ -1,0 +1,41 @@
+Changes:
+
+File: (DutchtoEnglish.py)
+
+DutchtoEnglish.py ->TagalogtoEnglish.py
+
+final_list -> f_list
+index -> index_list
+output_sentence -> otp_sentence
+final_output -> f_output
+current_sen -> current_sentence
+curr_translated_sen -> translated_sentence
+out_file -> otp_file
+
+File: (EnglishtoTagalog.py)
+
+EnglishtoDutch.py ->EnglishtoTagalog.py
+final_list -> f_list
+index -> index_list
+l -> curr_line
+current_sen -> current_sentence
+curr_translated_sen -> translated_sentence
+out_file -> otp_file
+
+File: (utlis.py)
+
+nCr -> n_factorial_r
+f -> factorial
+
+
+
+
+
+
+
+
+
+
+
+
+
