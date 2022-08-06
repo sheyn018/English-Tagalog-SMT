@@ -1,8 +1,6 @@
 import numpy as np
 from nltk.tokenize import word_tokenize
 import string
-import IBM1_EM
-import Utils
 
 
 def get_tokens_of_sentence(sentence):
@@ -11,30 +9,34 @@ def get_tokens_of_sentence(sentence):
     tokens = word_tokenize(sentence.lower())
     return tokens
 
-def sentence_tester1(sentence_to_translate,translate_option):
-    tagalog_to_english_maximised = np.load("trained_data/tagalog_to_english_maximised.npy",allow_pickle = True).item()
-    english_to_tagalog_maximised = np.load("trained_data/english_to_tagalog_maximised.npy",allow_pickle = True).item()
 
+def test_data(sentence_to_translate, translate_option):
+    tagalog_to_english_maximised = np.load("trained_data/tagalog_to_english_maximised.npy", allow_pickle=True).item()
+    english_to_tagalog_maximised = np.load("trained_data/english_to_tagalog_maximised.npy", allow_pickle=True).item()
+
+# Option 1 == FILIPINO TO ENGLISH
+# Option 2 == ENGLISH TO FILIPINO
     if translate_option == 1:
-        f_sentence = get_tokens_of_sentence(sentence_to_translate)
-        e_sentence = ""
-        for word in f_sentence :
+        sentence_from_file = get_tokens_of_sentence(sentence_to_translate)
+        sentence_to_object = ""
+        for word in sentence_from_file:
             if word in tagalog_to_english_maximised:
-                e_sentence = e_sentence + tagalog_to_english_maximised[word] + " "
+                sentence_to_object = sentence_to_object + tagalog_to_english_maximised[word] + " "
             else:
-                print("word '"+ word +"' does not exist in trained language translation dictionary")
+                print("word '" + word + "' does not exist in trained language translation dictionary")
                 continue
-        return e_sentence
+        return sentence_to_object
     elif translate_option == 2:
-        e_sentence = get_tokens_of_sentence(sentence_to_translate)
-        f_sentence = ""
-        for word in e_sentence :
+        sentence_from_file = get_tokens_of_sentence(sentence_to_translate)
+        sentence_to_object = ""
+        for word in sentence_from_file:
             if word in english_to_tagalog_maximised:
-                f_sentence = f_sentence + english_to_tagalog_maximised[word] + " "
+                sentence_to_object = sentence_to_object + english_to_tagalog_maximised[word] + " "
             else:
-                print("word '"+ word +"' does not exist in trained language translation dictionary")
+                print("word '" + word + "' does not exist in trained language translation dictionary")
                 continue
-        return f_sentence
+        return sentence_to_object
 
-def test(sentence_to_translate,translate_option):
-    return sentence_tester1(sentence_to_translate,translate_option)
+
+def test(sentence_to_translate, translate_option):
+    return test_data(sentence_to_translate, translate_option)
