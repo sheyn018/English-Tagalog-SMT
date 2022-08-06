@@ -2,6 +2,7 @@ import ModelTrainer
 import ModelTester
 import TagalogtoEnglish
 import EnglishtoTagalog
+import bleu
 import nltk
 
 nltk.download('punkt')
@@ -34,9 +35,11 @@ while True:
 
     elif mode == 3:             #translate tagalog document to English
         TagalogtoEnglish.translate()
+        bleu.get_bleu_score("TagalogTest(30%).txt", "TagalogOutput(30%).txt")
 
     elif mode == 4:             #translate English document to tagalog
         EnglishtoTagalog.translate()
+        bleu.get_bleu_score("EnglishTest(30%).txt", "EnglishOutput(30%).txt")
 
     elif mode == 5:
         break
