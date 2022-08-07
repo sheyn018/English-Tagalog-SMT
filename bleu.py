@@ -7,15 +7,13 @@ def sentence_tokenizer(sentence_list):
     file_content = list()
     index = 0
 
-    # tbh I don't quite get this part
     for sentence in sentence_list:
         if index == 0:
             sentence = sentence.replace(u'\ufeff', '')
             index += 1
 
         tokens = word_tokenize(sentence.lower())
-
-    # I also don't get this part
+        
         output_sentence = ""
 
         for token in tokens:
@@ -24,7 +22,6 @@ def sentence_tokenizer(sentence_list):
         output_sentence = output_sentence[:(len(output_sentence) - 1)]  # remove last space
         file_content.append(output_sentence)
 
-    # I also don't get this part
     file_content[0] = file_content[0].replace(u'\ufeff', '')  # ufeff character from document start
     return file_content
 
