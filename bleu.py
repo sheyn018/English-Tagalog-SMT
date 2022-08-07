@@ -59,11 +59,13 @@ def solve_for_bleu(hypothesis_file_name, reference_file_name):
     reference_data = read_file_save(reference_file_name)
 
     index = 0
-    bleu_score = 0
+    total_bleu_score = 0
+
     # solve for the bleu score
     for index in range(len(hypothesis_data)):
-        bleu_score += get_bleu_score(hypothesis_data[index], reference_data[index])
-        print(bleu_score, index)
+        bleu_score = get_bleu_score(hypothesis_data[index], reference_data[index])
+        total_bleu_score += bleu_score
+        print(bleu_score, "at index", index)
 
-    print(bleu_score, "/", index)
+    print("Total BLEU Score", total_bleu_score, "/", index)
     print("BLEU Score is", bleu_score/index, " with an N of", index)

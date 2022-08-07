@@ -1,0 +1,15 @@
+Program:
+• Test other data sets for training model 
+• Create an algorithm that will get the BLEU score (Cedric, Miguel, Hakob)
+• Change the variable, method, and file names of the programs (Note* yung main, model_trainer, ibm1_em, at utils ay napalitan ko na yung iba so yung mga di pa na lang ang gawin siguro) (Cedric)
+	update (nabago na ni cedric yung tagalogtoenglish at englishtotagalog) ✔
+• Disseminate the train, test, and validation of data 
+• Document the results
+• Try to improve the accuracy
+• Edit the input and output text. Make sure the system will work
+
+Document:
+• Chapter 1 - Abstract, motivation (Ruffy) ✔
+• Chapter 2 - RRL (Jessie, Miguel) ✔
+• Chapter 4 - Implementation ✔
+• Chapter 5 - Conclusion

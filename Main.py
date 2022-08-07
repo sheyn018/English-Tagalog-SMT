@@ -20,8 +20,9 @@ while True:
 
     elif mode == 2:
         try:
-            translate_option = int(input('Select translation option: \n\t1: '
-                                         'tagalog to English \n\t2: English to tagalog\n'))
+            translate_option = int(input('Select translation option: \n\t'
+                                         '1: tagalog to English \n\t'
+                                         '2: English to tagalog\n'))
         except ValueError:
             print("Not a number")
         if translate_option > 2 or translate_option < 1:

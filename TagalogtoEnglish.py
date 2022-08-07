@@ -40,14 +40,14 @@ def translate():
         for word in current_line:
             tagalog_sentences.append(word)
 
-    output_file = open("TagalogOutput(30%).txt", "w+", encoding="utf-8")
+    output_file = open("EnglishOutput(30%).txt", "w+", encoding="utf-8")
     for index in range(len(tagalog_sentences)):
         current_sentence = tagalog_sentences[index]
         translated_sentence = ModelTester.test_data(current_sentence, 1)
         output_file.write(translated_sentence)
         output_file.write("\n")
         
-    print("\nSuccessfully translated! Translated document is 'TagalogOutput(30%).txt' ")
+    print("\nSuccessfully translated! Translated document is 'EnglishOutput(30%).txt' ")
 
 # Get BLEU Score
-    bleu.solve_for_bleu("TagalogOutput(30%).txt", "EnglishTest(30%).txt")
+    bleu.solve_for_bleu("EnglishOutput(30%).txt", "TagalogTest(30%).txt")
